@@ -1,0 +1,1 @@
+import{i as e,r as t}from"./useLicense-CUKhxD6q.js";var n=t();function r({className:t,...r}){return(0,n.jsx)(`div`,{className:e(`rounded-xl border border-zinc-200 bg-white shadow-sm shadow-zinc-950/[0.03]`,t),...r})}export{r as t};
