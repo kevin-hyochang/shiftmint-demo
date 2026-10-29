@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BgnTz8Dl.js";import{b as t}from"./index-C7dwptwe.js";var n=e();function r({className:e,...r}){return(0,n.jsx)(`div`,{className:t(`rounded-xl border border-zinc-200 bg-white shadow-sm shadow-zinc-950/[0.03]`,e),...r})}export{r as t};
