@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-Cltr0gcK.js";import{b as t}from"./index-Bvd3iYPP.js";var n=e();function r({className:e,...r}){return(0,n.jsx)(`div`,{className:t(`animate-pulse rounded-lg bg-zinc-100`,e),...r})}export{r as t};
