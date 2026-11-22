@@ -1,0 +1,1 @@
+import{f as e,m as t,t as n}from"./jsx-runtime-rMngxgVb.js";var r=t(e(),1);n();var i=Object.defineProperty,a=(e,t)=>i(e,`name`,{value:t,configurable:!0}),o=r.createContext(void 0);function s(e){let t=r.useContext(o);return e||t||`ltr`}a(s,`useDirection`);export{s as t};
