@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/shiftmint-demo/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="시급과 주 근무시간을 넣으면 주휴수당(주)과 기본급을 더한 주 합계를 바로 계산합니다. 주 15시간 이상·40시간 상한 기준의 설정 기준 추정이며, 입력값은 어디에도 보내지 않습니다."
+    />
+    <title>주휴수당 계산기 — 시급·주 근무시간으로 바로 계산 | ShiftMint</title>
+    <script type="module" crossorigin src="/shiftmint-demo/assets/weeklyHolidayPay-C80_1V-4.js"></script>
+    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/src-dJTF9wsP.js">
+    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/laborCost-DZhp6xCC.js">
+    <link rel="stylesheet" crossorigin href="/shiftmint-demo/assets/src-QKFkquRa.css">
+  </head>
+  <body class="bg-white text-zinc-700">
+    <!-- 검색 유입용 정적 페이지. 글·폼은 여기 정적으로 두고(자바스크립트를 돌리지 않는 검색엔진도 읽게),
+         계산만 src/features/weeklyHolidayPay 가 앱과 같은 weeklyHolidayPay 로 한다. 방문 통계 태그는 넣지 않는다
+         (약관 제6조는 첫 화면·구매·로그인 화면에서만 보낸다고 적었다). 링크는 /shiftmint/·/shiftmint-demo/ 두 base 모두에서
+         맞도록 상대 경로로. -->
+    <header class="border-b border-zinc-100">
+      <div class="mx-auto flex max-w-3xl items-center px-6 py-3.5">
+        <a href="./" class="flex items-center gap-2 font-semibold text-zinc-900">
+          <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-700 text-sm text-white">S</span>
+          ShiftMint
+        </a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl space-y-8 px-6 py-10 text-sm leading-relaxed">
+      <div>
+        <h1 class="text-2xl font-semibold text-zinc-900">주휴수당 계산기</h1>
+        <p class="mt-2">
+          시급과 한 주 근무시간을 넣으면 주휴수당과, 기본급을 더한 한 주 합계를 바로 보여 줍니다. 계산은 이 브라우저
+          안에서만 하고 입력값은 어디에도 보내지 않습니다.
+        </p>
+      </div>
+
+      <section aria-label="계산" class="rounded-2xl border border-zinc-200 p-6">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block">
+            <span class="font-medium text-zinc-900">시급(원)</span>
+            <input
+              id="wage"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              step="1"
+              class="mt-1 block h-10 w-full rounded-lg border border-zinc-300 px-3 text-base text-zinc-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100"
+            />
+          </label>
+          <label class="block">
+            <span class="font-medium text-zinc-900">주 근무시간(시간)</span>
+            <input
+              id="hours"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              max="168"
+              step="0.5"
+              class="mt-1 block h-10 w-full rounded-lg border border-zinc-300 px-3 text-base text-zinc-900 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100"
+            />
+          </label>
+        </div>
+
+        <dl class="mt-6 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-xl bg-brand-50 p-4">
+            <dt class="text-xs text-zinc-600">주휴수당(주)</dt>
+            <dd id="holiday" class="mt-1 text-lg font-semibold text-brand-800">—</dd>
+          </div>
+          <div class="rounded-xl bg-zinc-50 p-4">
+            <dt class="text-xs text-zinc-600">기본급(주)</dt>
+            <dd id="base" class="mt-1 text-lg font-semibold text-zinc-900">—</dd>
+          </div>
+          <div class="rounded-xl bg-zinc-50 p-4">
+            <dt class="text-xs text-zinc-600">주 합계(기본급 + 주휴)</dt>
+            <dd id="total" class="mt-1 text-lg font-semibold text-zinc-900">—</dd>
+          </div>
+        </dl>
+        <p id="note" aria-live="polite" class="mt-3 text-xs text-zinc-500">시급과 주 근무시간을 넣으면 바로 계산합니다.</p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-semibold text-zinc-900">이렇게 계산합니다</h2>
+        <p>
+          한 주 근무시간이 15시간 이상이면 주휴수당을 (주 근무시간 ÷ 40시간, 최대 1) × 8시간 × 시급으로 추정합니다. 주
+          40시간 이상이면 8시간분으로 같고, 15시간 미만이면 0원으로 봅니다. 예를 들어 주 20시간이면 4시간분, 주 35시간이면
+          7시간분입니다.
+        </p>
+        <p>
+          이 비례 계산은 흔히 쓰는 근사식으로, ShiftMint 앱의 인건비 추정과 같은 식입니다. 주휴일(1주에 평균 1회 이상
+          주는 유급휴일)은 「근로기준법」 제55조에, 1주 소정근로시간이 15시간 미만인 근로자에게는 이를 적용하지 않는다는
+          내용은 같은 법 제18조에 있습니다.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-base font-semibold text-zinc-900">알아 둘 점</h2>
+        <ul class="list-disc space-y-1.5 pl-5">
+          <li>
+            입력한 시급과 시간을 기준으로 한 설정 기준 추정이며 노무·법률 자문이 아닙니다. 실제 지급 여부와 금액은
+            근로계약(소정근로일·소정근로시간)과 실제 출근 상황에 따라 달라집니다.
+          </li>
+          <li>입력한 한 주의 시간만 보고 계산합니다. 연장·야간 가산, 4대보험·세금은 넣지 않았습니다.</li>
+          <li>최저임금처럼 해마다 바뀌는 금액은 넣지 않았으니 시급은 직접 입력하세요.</li>
+          <li>정확한 판단이 필요하면 노무사에게 확인하세요.</li>
+        </ul>
+        <p class="text-xs text-zinc-500">기준일 2026년 11월 25일 작성</p>
+      </section>
+
+      <section class="rounded-2xl border border-brand-200 bg-brand-50 p-6">
+        <p class="font-medium text-zinc-900">근무표를 짜면 직원별 주휴수당 예상까지 같이 봅니다</p>
+        <p class="mt-1">
+          ShiftMint는 카페·식당·편의점 근무표를 브라우저에서 바로 만들어 줍니다. 직원마다 주 근무시간에 따라 주휴수당 발생
+          가능 여부를 함께 보여 주고, Pro에서는 예상 금액까지 봅니다. 가입 없이 무료로 시작합니다.
+        </p>
+        <a
+          href="./"
+          class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-brand-700 px-4 text-sm font-semibold text-white hover:bg-brand-800"
+          >근무표 만들러 가기</a
+        >
+      </section>
+    </main>
+
+    <footer class="border-t border-zinc-100">
+      <p class="mx-auto max-w-3xl px-6 py-6 text-xs text-zinc-500">
+        ShiftMint · <a href="./#/terms" class="hover:text-zinc-800">이용약관·환불·개인정보</a>
+      </p>
+    </footer>
+
+  </body>
+</html>
