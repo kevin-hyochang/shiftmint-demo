@@ -9,15 +9,15 @@
       content="시급과 주 근무시간을 넣으면 주휴수당(주)과 기본급을 더한 주 합계를 바로 계산합니다. 주 15시간 이상·40시간 상한 기준의 설정 기준 추정이며, 입력값은 어디에도 보내지 않습니다."
     />
     <title>주휴수당 계산기 — 시급·주 근무시간으로 바로 계산 | ShiftMint</title>
-    <script type="module" crossorigin src="/shiftmint-demo/assets/weeklyHolidayPay-C80_1V-4.js"></script>
-    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/src-dJTF9wsP.js">
-    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/laborCost-DZhp6xCC.js">
+    <script type="module" crossorigin src="/shiftmint-demo/assets/weeklyHolidayPay-DPals8lQ.js"></script>
+    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/src-Csy9dYom.js">
+    <link rel="modulepreload" crossorigin href="/shiftmint-demo/assets/laborCost-BzQ1dGof.js">
     <link rel="stylesheet" crossorigin href="/shiftmint-demo/assets/src-QKFkquRa.css">
   </head>
   <body class="bg-white text-zinc-700">
     <!-- 검색 유입용 정적 페이지. 글·폼은 여기 정적으로 두고(자바스크립트를 돌리지 않는 검색엔진도 읽게),
-         계산만 src/features/weeklyHolidayPay 가 앱과 같은 weeklyHolidayPay 로 한다. 방문 통계 태그는 넣지 않는다
-         (약관 제6조는 첫 화면·구매·로그인 화면에서만 보낸다고 적었다). 링크는 /shiftmint/·/shiftmint-demo/ 두 base 모두에서
+         계산만 src/features/weeklyHolidayPay 가 앱과 같은 weeklyHolidayPay 로 한다. 방문 통계 태그는 여기 정적으로 넣지
+         않는다 — 통계를 켠 빌드에서만 main.ts 가 방문 한 번(주소 고정)을 보내고, 입력한 시급·시간은 보내지 않는다(약관 제6조). 링크는 /shiftmint/·/shiftmint-demo/ 두 base 모두에서
          맞도록 상대 경로로. -->
     <header class="border-b border-zinc-100">
       <div class="mx-auto flex max-w-3xl items-center px-6 py-3.5">
