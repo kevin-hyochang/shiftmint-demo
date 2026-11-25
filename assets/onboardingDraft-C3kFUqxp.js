@@ -1,0 +1,1 @@
+var e=`shiftmint.onboardingDraft`;function t(){try{let t=localStorage.getItem(e);return t?JSON.parse(t):null}catch{return null}}function n(t){try{localStorage.setItem(e,JSON.stringify(t))}catch{}}function r(){try{localStorage.removeItem(e)}catch{}}export{t as n,n as r,r as t};
